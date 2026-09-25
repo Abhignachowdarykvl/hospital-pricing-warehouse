@@ -7,7 +7,7 @@ SELECT
     ROUND(AVG(avg_charge), 0)           AS national_avg_charge,
     ROUND(MAX(max_charge)
           - MIN(min_charge), 0)         AS max_spread_usd
-FROM marts.rpt_charge_variation
+FROM public_marts.rpt_charge_variation
 GROUP BY 1, 2
 ORDER BY max_spread_usd DESC
 LIMIT 10;
@@ -20,8 +20,8 @@ SELECT
     ROUND(AVG(avg_submitted_charge), 0) AS avg_charge,
     ROUND(AVG(avg_medicare_payment), 0) AS avg_medicare_payment,
     ROUND(AVG(medicare_pct_of_charge), 1) AS avg_medicare_pct
-FROM marts.fact_procedure_charges f
-JOIN marts.dim_hospital h USING (provider_ccn)
+FROM public_marts.fact_procedure_charges f
+JOIN public_marts.dim_hospital h USING (provider_ccn)
 GROUP BY 1
 ORDER BY avg_charge DESC;
 
@@ -31,7 +31,7 @@ SELECT
     COUNT(DISTINCT provider_ccn)        AS hospitals,
     ROUND(AVG(avg_charge), 0)           AS avg_charge,
     ROUND(AVG(avg_medicare_pct), 1)     AS avg_medicare_pct
-FROM marts.rpt_charge_variation
+FROM public_marts.rpt_charge_variation
 GROUP BY 1
 ORDER BY avg_charge DESC
 LIMIT 15;
@@ -40,8 +40,8 @@ LIMIT 15;
 WITH state_avg AS (
     SELECT drg_code, state,
            AVG(avg_submitted_charge) AS state_avg_charge
-    FROM marts.fact_procedure_charges f
-    JOIN marts.dim_hospital h USING (provider_ccn)
+    FROM public_marts.fact_procedure_charges f
+    JOIN public_marts.dim_hospital h USING (provider_ccn)
     GROUP BY 1, 2
 )
 SELECT
@@ -55,9 +55,9 @@ SELECT
     ROUND(s.state_avg_charge, 0)        AS state_avg,
     ROUND(f.avg_submitted_charge
           / NULLIF(s.state_avg_charge, 0), 2) AS ratio_to_state_avg
-FROM marts.fact_procedure_charges f
-JOIN marts.dim_hospital h   USING (provider_ccn)
-JOIN marts.dim_drg d        USING (drg_code)
+FROM public_marts.fact_procedure_charges f
+JOIN public_marts.dim_hospital h   USING (provider_ccn)
+JOIN public_marts.dim_drg d        USING (drg_code)
 JOIN state_avg s            USING (drg_code, state)
 WHERE f.avg_submitted_charge > 3 * s.state_avg_charge
 ORDER BY ratio_to_state_avg DESC
