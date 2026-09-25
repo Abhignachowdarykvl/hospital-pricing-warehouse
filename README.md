@@ -111,12 +111,3 @@ hospital-pricing-warehouse/
 `API ingestion` `pagination & retries` `AWS S3` `PostgreSQL` `dbt` `dimensional modeling`
 `star schema` `data quality tests` `pytest` `CI/CD` `Docker` `Airflow` `SQL window functions`
 `Tableau` `business insight`
-
-## Interview Questions This Project Answers
-
-- How does your pipeline handle API failures mid-run?
-- Why did you keep raw data as TEXT and cast in dbt?
-- How do you make a re-run safe (idempotency)?
-- What does SCD Type 2 mean and where would you add it here?
-- How do you know the load count matches the extract count?
-- What would break if CMS added a new column?
