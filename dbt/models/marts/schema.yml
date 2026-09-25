@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: dim_hospital
+    description: "One row per hospital with quality rating."
+    columns:
+      - name: provider_ccn
+        tests: [not_null, unique]
+      - name: rating_tier
+        tests:
+          - accepted_values:
+              values: ['High', 'Average', 'Low', 'Not Rated']
+
+  - name: fact_procedure_charges
+    description: "One row per hospital + DRG. Monetary values in USD."
+    columns:
+      - name: charge_id
+        tests: [not_null, unique]
+      - name: total_discharges
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: avg_submitted_charge
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
+
+  - name: rpt_charge_variation
+    description: "State-level charge variation by DRG for the dashboard."

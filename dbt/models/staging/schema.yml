@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: stg_cms_inpatient_charges
+    description: "Typed and renamed inpatient charges."
+    columns:
+      - name: provider_ccn
+        tests: [not_null]
+      - name: drg_code
+        tests: [not_null]
+      - name: total_discharges
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: avg_submitted_charge
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
+      - name: avg_medicare_payment
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
+
+  - name: stg_cms_hospital_info
+    description: "Typed and renamed hospital general information."
+    columns:
+      - name: provider_ccn
+        tests: [not_null, unique]
+      - name: overall_rating
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+              config:
+                where: "overall_rating is not null"

@@ -1,0 +1,18 @@
+name: hospital_pricing
+version: '1.0.0'
+config-version: 2
+
+profile: hospital_pricing
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+models:
+  hospital_pricing:
+    staging:
+      +schema: staging
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table

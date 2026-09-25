@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Raw CMS data loaded from the API, all columns TEXT."
+    tables:
+      - name: cms_inpatient_charges
+        description: "Medicare inpatient charges by provider and DRG."
+        columns:
+          - name: rndrng_prvdr_ccn
+            tests: [not_null]
+          - name: drg_cd
+            tests: [not_null]
+      - name: cms_hospital_info
+        description: "Hospital General Information including star ratings."
+        columns:
+          - name: facility_id
+            tests: [not_null]
