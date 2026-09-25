@@ -78,11 +78,12 @@ docker exec -i hpw_postgres psql -U hpw -d hospital_pricing < sql/02_analysis_qu
 
 ## Key Findings
 
-> Dashboard: [link coming after Tableau publish]
+> Dashboard: [Hospital Pricing & Quality Analysis](https://public.tableau.com/app/profile/abhigna.chowdary/viz/HospitalPricingQualityAnalysis/HospitalPricingQualityAnalysis)
 
-- The top 10 DRGs by price spread show a national range of over $500,000 for complex procedures
-- Hospital star rating has a weak correlation with submitted charges
-- Several hospitals charge 3–5× the state average for the same DRG
+- CAR T-Cell Immunotherapy has the widest national charge spread at $6.8M between cheapest and most expensive hospital
+- High-rated hospitals charge the most on average ($101,449) but low-rated hospitals charge more than average-rated ($96,510 vs $88,791) — quality rating is a weak predictor of cost
+- California is the most expensive state ($199,960 avg charge), followed by Colorado ($198,786) and Nevada ($187,625)
+- Several hospitals charge 4–5× their state average for the same procedure
 
 ## Project Structure
 
